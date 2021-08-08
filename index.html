@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>2048 Random Mods Game</title>
+
+  <link href="main.css" rel="stylesheet" type="text/css">
+  <link rel="shortcut icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="meta/apple-touch-icon.png">
+  <link rel="apple-touch-startup-image" href="meta/apple-touch-startup-image-640x1096.png" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)"> <!-- iPhone 5+ -->
+  <link rel="apple-touch-startup-image" href="meta/apple-touch-startup-image-640x920.png"  media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)"> <!-- iPhone, retina -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+<body>
+  <div class="container">
+    <div class="heading">
+      <h1 class="title">2048</h1>
+      <div class="scores-container">
+        <div class="score-container">0</div>
+        <div class="best-container">0</div>
+      </div>
+    </div>
+
+    <div class="above-game">
+      <p class="game-intro">Join the numbers and get to the <strong>2048 tile!</strong></p>
+      <a class="restart-button">New Game</a>
+    </div>
+
+    <div class="game-container">
+      <div class="game-message">
+        <p></p>
+        <div class="lower">
+	        <a class="keep-playing-button">Keep going</a>
+          <a class="retry-button">Try again</a>
+        </div>
+      </div>
+
+      <div class="grid-container" id="grid-container">
+      </div>
+
+      <div class="tile-container" id="tile-container">
+
+      </div>
+    </div>
+    <hr>
+    <p>
+      Time rush: <br>
+      <button name="time_rush" type="button" onclick="timeRush(60);">60s Time Rush</button>
+      <button name="time_rush" type="button" onclick="timeRush(300);">300s Time Rush</button>
+    </p>
+    <hr>
+    <p>
+      <a class="restart-button" href="http://www.rawgit.com/TheAstronomer/2147483648/contemporary/index.html">Reset Game</a>
+      My GitHub: <a href="https://github.com/TheAstronomer/">TheAstronomer</a> <br>
+      Creator's GitHub: <a href="https://github.com/CyberZHG/">CyberZHG</a> <br>
+      Contributors to original site: <a href="https://github.com/jiangtyd/">jiangtyd</a>|
+      <a href="https://github.com/allbinbin/">allbinbin</a>
+    </p>
+    <hr/>
+    <p>
+      Save & Load: <br>
+      <button name="save_board" type="button" onclick="saveBoard();">Save Board</button>
+      <button name="load_board" type="button" onclick="loadBoard();">Load Board</button>
+    </p>
+    <hr>
+    <p>
+      Auto move: <br>
+      <button name="automove" type="button" onclick="doMovementPattern(corner);">Corner</button>
+      <button name="automove" type="button" onclick="doMovementPattern(swing);">Swing</button>
+      <button name="automove" type="button" onclick="doMovementPattern(swirl);">Swirl</button>
+      <button name="automove" type="button" onclick="doMovementPattern(random);">Random</button>
+      <br/>
+      <button type="button" onclick="stopMovement();">Stop</button>
+    </p>
+    <hr>
+    <p>
+      Special Mode: <br>
+      <button type="button" onclick="changeMode('normal');">Normal</button>
+      <button type="button" onclick="changeMode('alwaysTwo');">Always 1</button>
+      <button type="button" onclick="changeMode('threeTile');">1, 2, 4</button>
+      <button type="button" onclick="changeMode('fourTile');">1, 2, 4, 8</button>
+      <button type="button" onclick="changeMode('fibonacci');">Fibonacci</button>
+      <button type="button" onclick="changeMode('lucas');">Lucas</button>
+      <button type="button" onclick="changeMode('threes');">Threes!</button>
+      <button type="button" onclick="changeMode('base3');">Base 3</button>
+      <button type="button" onclick="changeMode('mergeAny');">Merge Any</button>
+      <button type="button" onclick="changeMode('powerTwo');">Power 2</button>
+      <button type="button" onclick="changeMode('tileZero');">Tile 0</button>
+      <button type="button" onclick="changeMode('tileNegative');">Negative</button>
+      <button type="button" onclick="changeMode('gravity');">Gravity</button>
+      <button type="button" onclick="changeMode('troll');">Troll</button>
+    </p>
+    <hr>
+    <p>
+      Size: <br>
+      <button type="button" onclick="changeSize(1);">1×1</button>
+      <button type="button" onclick="changeSize(2);">2×2</button>
+      <button type="button" onclick="changeSize(3);">3×3</button>
+      <button type="button" onclick="changeSize(4);">4×4</button>
+      <button type="button" onclick="changeSize(5);">5×5</button>
+      <button type="button" onclick="changeSize(6);">6×6</button>
+      <button type="button" onclick="changeSize(7);">7×7</button>
+      <button type="button" onclick="changeSize(8);">8×8</button>
+      <button type="button" onclick="changeSize(9);">9×9</button>
+      <button type="button" onclick="changeSize(10);">10×10</button>
+      <button type="button" onclick="changeSize(11);">11×11</button>
+      <button type="button" onclick="changeSize(12);">12×12</button>
+      <button type="button" onclick="changeSize(13);">13×13</button>
+      <button type="button" onclick="changeSize(14);">14×14</button>
+      <button type="button" onclick="changeSize(15);">15×15</button>
+      <button type="button" onclick="changeSize(16);">16×16</button>
+    </p>
+    <hr>
+    <p>
+    Switch between 2048 games: <br>
+      <button type="button" onclick="window.location.href='/TheAstronomer/2147483648/turais/index.html';">Turais</button>
+      <button type="button" onclick="window.location.href='/TheAstronomer/2147483648/polaris/index.html';">Polaris</button>
+      <button type="button" onclick="window.location.href='/TheAstronomer/2147483648/sirius/index.html';">Sirius</button>
+      <button type="button" onclick="window.location.href='/TheAstronomer/2147483648/spica/index.html';">Spica</button>
+      <button type="button" onclick="window.location.href='/TheAstronomer/2147483648/altair/index.html';">Altair</button>
+      <button type="button" onclick="window.location.href='/TheAstronomer/2147483648/nashira/index.html';">Nashira</button>
+      <button type="button" onclick="window.location.href='/TheAstronomer/2147483648/atlas/index.html';">Atlas</button>
+      <button type="button" onclick="window.location.href='/TheAstronomer/2147483648/callisto/index.html';">Callisto</button>
+      <button type="button" onclick="window.location.href='/TheAstronomer/2147483648/miranda/index.html';">Miranda</button>
+      <button type="button" onclick="window.location.href='/TheAstronomer/2147483648/phobos/index.html';">Phobos</button>
+      <button type="button" onclick="window.location.href='/TheAstronomer/2147483648/prometheus/index.html';">Prometheus</button>
+      <button type="button" onclick="window.location.href='/TheAstronomer/2147483648/triton/index.html';">Triton</button>
+      <button type="button" onclick="window.location.href='/TheAstronomer/2147483648/master/index.html';">Animated</button>
+      <button type="button" onclick="window.location.href='/TheAstronomer/2147483648/size32/index.html';">Size 32</button>
+      <button type="button" onclick="window.location.href='/TheAstronomer/2147483648/contemporary/index.html';">Contemporary</button>
+      <button type="button" onclick="window.location.href='http://theastronomer.github.io/2147483648/';">Official</button>
+    </p>
+    <hr>
+    <p>
+      Skin: <br>
+      <button type="button" onclick="window.location.href='skin_santi.html';">死神永生</button>
+      <button type="button" onclick="window.location.href='skin_shito.html';">使徒</button>
+      <button type="button" onclick="window.location.href='skin_bkb.html';">兵庫北</button>
+      <button type="button" onclick="window.location.href='skin_chemistry.html';">Chemistry</button>
+      <button type="button" onclick="window.location.href='auto_flappy.html';">Auto Flappy</button>
+    <hr>
+    <p class="game-explanation">
+    <strong class="important">Original 2048:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong>
+    </p>
+    <hr>
+    <p>
+    <strong class="important">Lucas Sequence:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles touch, they <strong>merge into one!</strong> To merge two tiles, their sum must be a number of the Lucas Sequence.
+    </p>
+    <hr>
+    <p>
+    <strong class="important">Fibonacci Sequence:</strong> Use your <strong>arrow keys</strong> or <strong>swipe</strong> to move the tiles. When two neigbouring numbers from the <a href="http://en.wikipedia.org/wiki/Fibonacci_number">Fibonacci sequence</a> touch, they <strong>merge into the next one!</strong>
+    </p>
+    <hr>
+    <p>
+    <strong class="important">Threes:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with sum of 3 or the same number touch greater than 3 or equal to 3, they <strong>merge into one!</strong>
+    </p>
+    <hr>
+    <p>
+    <strong class="important">Merge Any:</strong> Use your <strong>arrow keys</strong> to move the tiles. When <strong>ANY</strong> two tiles touch, they <strong>merge into one!</strong>
+    </p>
+    <hr>
+    <p>
+    <strong class="important">Power 2:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong><br/>But every time you make a move, the tiles will spawn in consecutive powers of 2 every single time.
+    </p>
+    <hr>
+    <p>
+    <strong class="important">Tile Zero:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong><br/><strong>Watch out for ‘0’s</strong>—they can only merge with themselves!
+    </p>
+    <hr>
+    <p>
+    <strong class="important">Negative:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same absolute value touch, they <strong>merge into one!</strong>
+    </p>
+    <hr>
+    <p>
+    <strong class="important">Gravity:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong><br/>But every time you make a move, gravity has been enabled, and those tiles above will drop to the bottom of the grid.
+    </p>
+    <hr>
+    <p>
+    <strong class="important">Troll:</strong> Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they <strong>merge into one!</strong><br/>As you make a move, the game will also make another random move for you. Pretty mindless
+    </p>
+    <hr>
+    <p>
+    <strong class="important">Note:</strong> This site is the official version of 2048, but updated a lot. You can play it on your phone via <a href="http://git.io/2048">http://git.io/2048.</a> All other apps or sites are derivatives or fakes, and should be used with caution.
+    </p>
+    <hr>
+    <p>
+    Created by <a href="http://github.com/glukascewic3" target="_blank">Glukascewic3.</a> <a href="http://git.io/2048"> Original 2048</a> Created by <a href="http://gabrielecirulli.com" target="_blank">Gabriele Cirulli.</a> Based on <a href="https://itunes.apple.com/us/app/1024!/id823499224" target="_blank">1024 by Veewo Studio</a> and conceptually similar to <a href="http://asherv.com/threes/" target="_blank">Threes by Asher Vollmer.</a>
+    </p>
+  </div>
+
+  <script src="index.js"></script>
+  <script src="application.js"></script>
+</body>
+</html>
